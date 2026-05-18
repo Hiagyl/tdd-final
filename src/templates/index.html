@@ -4,252 +4,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>letterBookxd | Dashboard</title>
+    <title>LetterBookxd Catalog</title>
     <style>
-        :root {
-            --bg-main: #f8fafc;
-            --surface: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --danger: #ef4444;
-            --danger-hover: #dc2626;
-            --border: #e2e8f0;
-            --radius: 12px;
-            --radius-sm: 8px;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            padding: 2rem 1rem;
+            font-family: sans-serif;
+            margin: 40px;
+            max-width: 600px;
+        }
+
+        form {
+            margin-bottom: 20px;
             display: flex;
-            justify-content: center;
+            gap: 10px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 560px;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        header h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            color: var(--text-main);
-        }
-
-        header p {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .input-row {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        input {
-            flex: 1;
-            padding: 0.625rem 0.875rem;
-            font-size: 0.95rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: var(--surface);
-            color: var(--text-main);
-            transition: all 0.2s ease;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-        }
-
-        button {
-            cursor: pointer;
-            font-size: 0.875rem;
-            font-weight: 500;
-            padding: 0.625rem 1rem;
-            border-radius: var(--radius-sm);
-            border: none;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #add-book-btn {
-            background-color: var(--primary);
-            color: #ffffff;
-            width: 100%;
-        }
-
-        #add-book-btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .list-header {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.75rem;
-            padding-left: 0.25rem;
-        }
-
-        #book-list {
+        ul {
             list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            padding: 0;
         }
 
-        #book-list li {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 0.75rem 1rem;
+        li {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .book-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.125rem;
-        }
-
-        .book-title {
-            font-weight: 500;
-            font-size: 0.95rem;
-            color: var(--text-main);
-        }
-
-        .book-author {
-            font-size: 0.825rem;
-            color: var(--text-muted);
-        }
-
-        .delete-btn {
-            background-color: transparent;
-            color: var(--text-muted);
-            padding: 0.375rem 0.75rem;
-            border: 1px solid transparent;
-        }
-
-        .delete-btn:hover {
-            color: var(--danger);
-            background-color: rgba(239, 68, 68, 0.08);
-            border-color: rgba(239, 68, 68, 0.15);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 2rem 1rem;
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            border: 1px dashed var(--border);
-            border-radius: var(--radius-sm);
+        button {
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <h1>Book Collection</h1>
-            <p>Manage and monitor your digital library inventory.</p>
-        </header>
+    <h1>Book Catalog Dashboard</h1>
 
-        <main class="card">
-            <form id="book-form" onsubmit="addBook(event)" class="form-group">
-                <div class="input-row">
-                    <input type="text" id="title" placeholder="Book Title" autocomplete="off" required>
-                    <input type="text" id="author" placeholder="Author Name" autocomplete="off" required>
-                </div>
-                <button type="submit" id="add-book-btn">Add to Collection</button>
-            </form>
-        </main>
+    <form id="book-form" onsubmit="addBook(event)">
+        <input type="text" id="title" placeholder="Book Title" required>
+        <input type="text" id="author" placeholder="Author Name" required>
+        <button type="submit" id="add-book-btn">Add Book</button>
+    </form>
 
-        <div>
-            <div class="list-header">Stored Catalog</div>
-            <ul id="book-list"></ul>
-        </div>
-    </div>
+    <ul id="book-list"></ul>
 
     <script>
         const bookList = document.getElementById('book-list');
 
-        function renderEmptyState() {
-            bookList.innerHTML = `<div class="empty-state">No books currently logged in this catalog.</div>`;
+        // Render standard catalog lists
+        function renderBooks(books) {
+            bookList.innerHTML = '';
+
+            if (!books || books.length === 0) {
+                bookList.innerHTML = '<div class="empty-state">No books currently logged in this catalog.</div>';
+                return;
+            }
+
+            books.forEach((book, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span><strong>${book.title}</strong> by ${book.author}</span>
+                    <button class="delete-btn" onclick="deleteBook(${index})">Delete</button>
+                `;
+                bookList.appendChild(li);
+            });
         }
 
-        // Clean UI compilation matching exact text structures expected by your tests
-        function appendBookToDOM(title, author, index) {
-            // Remove empty state message if it's there
-            const emptyEl = bookList.querySelector('.empty-state');
-            if (emptyEl) bookList.innerHTML = '';
-
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <div class="book-info">
-                    <span class="book-title">${title}</span>
-                    <span class="book-author">by ${author}</span>
-                </div>
-                <button class="delete-btn" onclick="removeBook(event, ${index})">Delete</button>
-            `;
-            bookList.appendChild(li);
-        }
-
-        async function refreshList() {
+        // Fetch updates from backend catalog
+        async function loadBooks() {
             try {
-                const res = await fetch('/books', { headers: { 'Accept': 'application/json' } });
-                const data = await res.json();
-                bookList.innerHTML = '';
-
-                if (data && data.length > 0) {
-                    data.forEach((book, index) => {
-                        appendBookToDOM(book.title, book.author, index);
-                    });
-                } else {
-                    renderEmptyState();
+                // Explicitly send Accept headers to prevent Flask routing collisions
+                const res = await fetch('/books', {
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (res.ok) {
+                    const books = await res.json();
+                    renderBooks(books);
                 }
-            } catch (e) {
-                console.error("Fetch lookup failed:", e);
-                renderEmptyState();
+            } catch (err) {
+                console.error("Error loading book metrics:", err);
             }
         }
 
+        // Handle Form Submission (POST)
         async function addBook(e) {
             e.preventDefault();
 
@@ -258,48 +95,46 @@
             const title = titleInput.value.trim();
             const author = authorInput.value.trim();
 
-            if (title && author) {
-                // Get immediate current length for manual temporary indexing
-                const theoreticalIndex = bookList.querySelectorAll('li').length;
-
-                // 🎯 FIX: Synchronously push structural elements to the DOM right now
-                // This ensures Playwright intercepts the target strings instantly!
-                appendBookToDOM(title, author, theoreticalIndex);
-
-                titleInput.value = '';
-                authorInput.value = '';
-
-                try {
-                    // Send out network sync asynchronously in background wrapper
-                    await fetch('/books', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ title, author })
-                    });
-                    // Silently refresh from true source once transaction lands
-                    await refreshList();
-                } catch (e) {
-                    console.error("Failed to add book:", e);
-                }
-            }
-        }
-
-        async function removeBook(event, index) {
-            // 🎯 FIX: Instantly drop item visually from view so deletion tests pass immediately
-            const targetLi = event.target.closest('li');
-            if (targetLi) targetLi.remove();
-            if (bookList.querySelectorAll('li').length === 0) renderEmptyState();
+            if (!title || !author) return;
 
             try {
-                await fetch(`/books/${index}`, { method: 'DELETE' });
-                await refreshList();
-            } catch (e) {
-                console.error("Delete call request error:", e);
+                const res = await fetch('/books', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ title, author })
+                });
+
+                if (res.ok) {
+                    titleInput.value = '';
+                    authorInput.value = '';
+                    // Force complete sequential data synchronization
+                    await loadBooks();
+                }
+            } catch (err) {
+                console.error("Error creating entry document:", err);
             }
         }
 
-        // Initialize display configuration layout rules
-        refreshList();
+        // Handle Book Deletion (DELETE)
+        async function deleteBook(index) {
+            try {
+                const res = await fetch(`/books/${index}`, {
+                    method: 'DELETE',
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (res.ok) {
+                    await loadBooks();
+                }
+            } catch (err) {
+                console.error("Error deleting entry instance:", err);
+            }
+        }
+
+        // Initialize lookup check immediately on execution stream lifecycle entry
+        loadBooks();
     </script>
 </body>
 
