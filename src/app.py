@@ -1,13 +1,24 @@
 # src/app.py
-from flask import Flask, jsonify, request
+import os
+from flask import Flask, jsonify, request, render_template
 from src.logic import BookCatalog
 
+# 🎯 FIX: Instantiate and expose catalog metrics globally so conftest.py can read them
 catalog = BookCatalog()
 books = catalog.books
 
 
 def create_app():
-    app = Flask(__name__)
+    # Configure precise folder paths to ensure template finding works across fixtures
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    template_dir = os.path.join(current_dir, "templates")
+
+    app = Flask(__name__, template_folder=template_dir)
+
+    # Serve the user interface at the root URL so Playwright can find your HTML
+    @app.route('/')
+    def index():
+        return render_template('index.html')
 
     @app.route('/books', methods=['GET', 'POST'])
     def handle_books():
