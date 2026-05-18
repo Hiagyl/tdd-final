@@ -9,6 +9,11 @@ books = catalog.books
 def create_app():
     app = Flask(__name__)
 
+    @app.route('/')
+    def index():
+        """Serve the frontend user interface layout dashboard."""
+        return render_template('index.html')
+    
     @app.route('/books', methods=['GET', 'POST'])
     def handle_books():
         if request.method == 'POST':

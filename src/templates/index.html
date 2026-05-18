@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LetterBookxd Catalog</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 40px;
+            max-width: 600px;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Book Catalog Dashboard</h1>
+
+    <form id="book-form" onsubmit="addBook(event)">
+        <input type="text" id="title" placeholder="Book Title" required>
+        <input type="text" id="author" placeholder="Author Name" required>
+        <button type="submit" id="add-book-btn">Add Book</button>
+    </form>
+
+    <ul id="book-list"></ul>
+
+    <script>
+        // Fetch and display books on initial layout load
+        async function loadBooks() {
+            const res = await fetch('/books', { headers: { 'Accept': 'application/json' } });
+            const books = await res.json();
+            const list = document.getElementById('book-list');
+            list.innerHTML = '';
+
+            books.forEach((book, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span><strong>${book.title}</strong> by ${book.author}</span>
+                    <button class="delete-btn" onclick="deleteBook(${index})">Delete</button>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        // Handle Form Submission (POST)
+        async function addBook(e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+
+            await fetch('/books', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, author })
+            });
+
+            document.getElementById('title').value = '';
+            document.getElementById('author').value = '';
+            loadBooks();
+        }
+
+        // Handle Book Deletion (DELETE)
+        async function deleteBook(index) {
+            await fetch(`/books/${index}`, { method: 'DELETE' });
+            loadBooks();
+        }
+
+        // Initialize script stream
+        loadBooks();
+    </script>
+</body>
+
+</html>
