@@ -2,7 +2,6 @@
 
 class BookCatalog:
     def __init__(self):
-        # Persistent in-memory data store array
         self.books = []
 
     def _is_empty(self, value):
@@ -10,7 +9,6 @@ class BookCatalog:
         return not value or not str(value).strip()
 
     def add_book(self, title, author):
-        # Cleaned validation sequence utilizing our extracted helper
         if self._is_empty(title) or self._is_empty(author):
             raise ValueError("Title and Author cannot be empty")
 
@@ -18,8 +16,18 @@ class BookCatalog:
         self.books.append(book)
         return book
 
+    def update_book_by_index(self, index, title, author):
+        """Helper to cleanly validate and update a book structure by its index."""
+        if self._is_empty(title) or self._is_empty(author):
+            raise ValueError("Title and Author cannot be empty")
+
+        if index < 0 or index >= len(self.books):
+            raise IndexError("Invalid book index mapping")
+
+        self.books[index] = {"title": title.strip(), "author": author.strip()}
+        return self.books[index]
+
     def remove_book_by_index(self, index):
-        # Defensive bounds check boundary mapping
         if index < 0 or index >= len(self.books):
             raise IndexError("Invalid book index mapping")
 
