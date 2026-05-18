@@ -80,4 +80,5 @@ pytest -s -v
 Unit Test Result
 ![Unit Test Result](images/unitPass.png)
 
- 
+Integration Test Result
+![Integration Test Result](images/integrationPass.png)
