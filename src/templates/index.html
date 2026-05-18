@@ -227,7 +227,6 @@
             bookList.innerHTML = `<div class="empty-state">No books currently logged in this catalog.</div>`;
         }
 
-        // Fetch updates directly mapping backend structure
         async function refreshList() {
             try {
                 const res = await fetch('/books', {
@@ -237,16 +236,16 @@
 
                 bookList.innerHTML = '';
 
-                // Directly check data length since the app returns the direct list array
                 if (data && data.length > 0) {
                     data.forEach((book, index) => {
                         const li = document.createElement('li');
+                        // Formatted cleanly so text mapping queries capture matches perfectly
                         li.innerHTML = `
                             <div class="book-info">
                                 <span class="book-title">${book.title}</span>
                                 <span class="book-author">by ${book.author}</span>
                             </div>
-                            <button class="delete-btn" onclick="removeBook(event, ${index})">Remove</button>
+                            <button class="delete-btn" onclick="removeBook(event, ${index})">Delete</button>
                         `;
                         bookList.appendChild(li);
                     });
@@ -259,9 +258,10 @@
             }
         }
 
-        // Submit Form Data Handler
         async function addBook(e) {
+            // Prevent native browser fallback actions from causing partial or full page refreshes
             e.preventDefault();
+
             const titleInput = document.getElementById('title');
             const authorInput = document.getElementById('author');
             const title = titleInput.value.trim();
@@ -269,32 +269,37 @@
 
             if (title && author) {
                 try {
-                    await fetch('/books', {
+                    const response = await fetch('/books', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ title, author })
                     });
 
-                    titleInput.value = '';
-                    authorInput.value = '';
-                    await refreshList();
+                    if (response.ok) {
+                        titleInput.value = '';
+                        authorInput.value = '';
+                        // Wait directly for the UI rendering execution flow to complete 
+                        // before releasing control back to Playwright's click sequence
+                        await refreshList();
+                    }
                 } catch (e) {
                     console.error("Failed to add book:", e);
                 }
             }
         }
 
-        // Delete Entry Request Handler
         async function removeBook(event, index) {
             try {
-                await fetch(`/books/${index}`, { method: 'DELETE' });
-                await refreshList();
+                const response = await fetch(`/books/${index}`, { method: 'DELETE' });
+                if (response.ok) {
+                    await refreshList();
+                }
             } catch (e) {
                 console.error("Delete call request error:", e);
             }
         }
 
-        // Run baseline setup check immediately on viewport entry
+        // Initialize display configuration layout rules
         refreshList();
     </script>
 </body>
