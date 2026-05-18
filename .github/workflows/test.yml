@@ -1,44 +1,35 @@
 name: TDD Continuous Integration Suite
 
-# 1. Trigger the workflow on every push or pull request to the main branch
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
   run-tests:
     runs-on: ubuntu-latest
 
-    services:
-      # If your application expands to use a real database later, 
-      # container configurations (like MongoDB/Postgres) can reside here.
-
     steps:
-    # Step 1: Pull the latest source code from your repository onto the cloud runner
     - name: Checkout Code Repository
       uses: actions/checkout@v4
 
-    # Step 2: Setup an isolated Python Environment running Python 3.11
+    # The pytest.ini file you created handles adding 'src' to the path automatically!
     - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        cache: 'pip' # Speeds up subsequent runs by caching your pip downloads
+        cache: 'pip'
 
-    # Step 3: Install all required pip dependencies
     - name: Install Project Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    # Step 4: Install Playwright's system-level headless browser binaries
-    - name: Install Playwright Webkit and Dependencies
+    - name: Install Playwright Browsers
       run: |
         playwright install --with-deps
 
-    # Step 5: Execute your test runner framework
-    - name: Run Three-Tiered Test Suite (Unit, Integration, & System)
+    - name: Run Test Suite
       run: |
         pytest -v
