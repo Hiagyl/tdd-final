@@ -2,9 +2,9 @@ name: TDD Continuous Integration Suite
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, try ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, try ]
 
 jobs:
   run-tests:
