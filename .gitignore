@@ -1,0 +1,23 @@
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Python Cache data
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Pytest and Testing frameworks
+.pytest_cache/
+.pytest/
+htmlcov/
+.coverage
+tomcat.*/
+
+# IDE / Operating System metadata files
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
