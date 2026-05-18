@@ -35,7 +35,7 @@ This project follows the Red-Green-Refactor cycle at three distinct levels:
 
 - **Evidence of TDD:** 
     - Red Phase: ![Failed Unit Test](images/unitFail.png)
-    - Green Phase: ![Passed Unit Test](images/unitPass2.png)
+    - Green Phase: ![Passed Unit Test](images/unitPass.png)
 
 - **Deployment:** Automatic deployment to production occurs only if the full test suite passes.
 
@@ -75,5 +75,9 @@ python app.py
 ```bash
 pytest -s -v
 ```
+
+## Test Results
+Unit Test Result
+![Unit Test Result](images/unitPass.png)
 
  
